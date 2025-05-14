@@ -1,10 +1,13 @@
 import flet as ft
 
+from UI.controller import Controller
+
 
 class View(ft.UserControl):
     def __init__(self, page: ft.Page):
         super().__init__()
         # page stuff
+
         self._page = page
         self._page.title = "Template application using MVC and DAO"
         self._page.horizontal_alignment = 'CENTER'
@@ -28,14 +31,16 @@ class View(ft.UserControl):
         self._title = ft.Text("TdP 2024 - Lab11: Prova tema d'esame", color="blue", size=24)
         self._page.controls.append(self._title)
 
-        #ROW with some controls
+        # ROW with some controls
         # text field for the name
         self._ddyear = ft.Dropdown(label="Anno")
+
         self._ddcolor = ft.Dropdown(label="Colore")
+
 
         # button for the "creat graph" reply
         self.btn_graph = ft.ElevatedButton(text="Crea Grafo", on_click=self._controller.handle_graph)
-        row1 = ft.Row([self._ddyear,self._ddcolor, self.btn_graph],
+        row1 = ft.Row([self._ddyear, self._ddcolor, self.btn_graph],
                       alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row1)
 
