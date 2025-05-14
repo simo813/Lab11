@@ -17,7 +17,9 @@ class View(ft.UserControl):
         # graphical elements
         self._title = None
         self._ddyear = None
+        self.ddYearValue = None
         self._ddcolor = None
+        self.ddColorValue = None
         self.btn_graph = None
         self.txtOut = None
         self.txt_container = None
@@ -33,9 +35,9 @@ class View(ft.UserControl):
 
         # ROW with some controls
         # text field for the name
-        self._ddyear = ft.Dropdown(label="Anno")
+        self._ddyear = ft.Dropdown(label="Anno", on_change=self.on_dropdownYear_change)
 
-        self._ddcolor = ft.Dropdown(label="Colore")
+        self._ddcolor = ft.Dropdown(label="Colore", on_change=self.on_dropdownColor_change)
 
 
         # button for the "creat graph" reply
@@ -79,3 +81,11 @@ class View(ft.UserControl):
 
     def update_page(self):
         self._page.update()
+
+    def on_dropdownYear_change(self, e):\
+        self.ddYearValue = e.value
+
+    def on_dropdownColor_change(self, e):
+        self.ddColorValue = e.value
+
+

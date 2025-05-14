@@ -10,3 +10,10 @@ class Model:
     def passaColoriMO(self):
         listaColoriMO = self.DAO.getColors()
         return listaColoriMO
+
+    def cercaNodiMO(self, color):
+        listaNodi = self.DAO.getProductsOfColor(color)
+        return listaNodi
+
+
+

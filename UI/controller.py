@@ -1,4 +1,5 @@
 import flet as ft
+import networkx as nx
 
 
 class Controller:
@@ -9,6 +10,7 @@ class Controller:
         self._model = model
         self._listYear = []
         self._listColor = []
+
 
     def fillDD(self):
         self._view._ddyear.options.append(ft.dropdown.Option(key="2015", text="2015"))
@@ -23,7 +25,12 @@ class Controller:
 
 
     def handle_graph(self, e):
-        pass
+        graph = nx.Graph()
+        listaNodi = self._model.cercaNodiMO(self._view._ddColorValue)
+        listaArchi = self._model.cercaArchiMO(self._view._ddYearValue)
+        graph.add_nodes_from(listaNodi)
+        graph.add_edges_from(listaArchi)
+
 
 
 
