@@ -20,3 +20,7 @@ class Product:
 
     def __eq__(self, other):
         self.Product_number = other.Product_number
+
+
+
+

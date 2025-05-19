@@ -25,13 +25,43 @@ class Controller:
 
 
     def handle_graph(self, e):
-        graph = nx.Graph()
-        listaNodi = self._model.cercaNodiMO(self._view._ddColorValue)
-        listaArchi = self._model.cercaArchiMO(self._view._ddYearValue)
-        graph.add_nodes_from(listaNodi)
-        graph.add_edges_from(listaArchi)
+        self._view.txtOut.controls.clear()
+        graph = self._model.creaGrafo(self._view.ddColorValue, self._view.ddYearValue)
+        stampa, listaTreArchiMaggiori = self.maxWeightEdges(graph)
+        listaNodiPresentiInPiuArchi = self.nodiPresentiInPiuArchi(listaTreArchiMaggiori)
+        self._view.txtOut.controls.append(ft.Text(f"numero di nodi: {graph.number_of_nodes()}, numero di archi: {graph.number_of_edges()}\n"
+                                                  f"{stampa}\n"
+                                                  f"I nodi ripetuti sono: {listaNodiPresentiInPiuArchi}"))
+        self._view.btn_search.disabled = False
+        for node in graph.nodes():
+            self._view._ddnode.options.append(ft.dropdown.Option(key=node, text=node.Product_number))
+
+        self._view.update_page()
+
+    def maxWeightEdges(self, graph):
+        sorted_edges = sorted(graph.edges(data = True), key=lambda edge: edge[2]['weight'], reverse=True)
+        listaTreArchiMaggiori = sorted_edges[:3]
+        stampa = ""
+        for arco in listaTreArchiMaggiori:
+            stampa += f"Arco da {arco[0]} a {arco[1]}, peso {arco[2]['weight']}\n"
+        return stampa, listaTreArchiMaggiori
 
 
+    def nodiPresentiInPiuArchi(self, listaTreArchiMaggiori):
+        listaNodiPresentiInPiuArchi = []
+        listaNodi = set()
+        for arco in listaTreArchiMaggiori:
+            listaNodi.add(arco[0])
+            listaNodi.add(arco[1])
+        for nodo in listaNodi:
+            contatore = 0
+            for arco in listaTreArchiMaggiori:
+                if nodo.Product_number == arco[0].Product_number or nodo.Product_number == arco[1].Product_number:
+                    contatore += 1
+            if contatore > 1:
+                listaNodiPresentiInPiuArchi.append(nodo.Product_number)
+
+        return listaNodiPresentiInPiuArchi
 
 
     def fillDDProduct(self):

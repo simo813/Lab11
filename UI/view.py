@@ -25,6 +25,7 @@ class View(ft.UserControl):
         self.txt_container = None
 
         self._ddnode = None
+        self.ddNodeValue = None
         self.btn_search = None
         self.txtOut2 = None
 
@@ -52,8 +53,8 @@ class View(ft.UserControl):
         self.txtOut = ft.ListView(expand=1, spacing=10, padding=10, auto_scroll=True)
         self._page.controls.append(self.txtOut)
 
-        self._ddnode = ft.Dropdown(label="Product")
-        self.btn_search = ft.ElevatedButton(text="Cerca Percorso", on_click=self._controller.handle_search)
+        self._ddnode = ft.Dropdown(label="Product", on_change=self.on_dropdownNode_change)
+        self.btn_search = ft.ElevatedButton(text="Cerca Percorso", on_click=self._controller.handle_search, disabled = True)
         row2 = ft.Row([self._ddnode, self.btn_search],
                       alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row2)
@@ -82,10 +83,16 @@ class View(ft.UserControl):
     def update_page(self):
         self._page.update()
 
-    def on_dropdownYear_change(self, e):\
-        self.ddYearValue = e.value
+    def on_dropdownYear_change(self, e):
+        self.ddYearValue = self._ddyear.value
+        self.update_page()
 
     def on_dropdownColor_change(self, e):
-        self.ddColorValue = e.value
+        self.ddColorValue = self._ddcolor.value
+        self.update_page()
+
+    def on_dropdownNode_change(self, e):
+        self.ddNodeValue = self._ddnode.value
+        self.update_page()
 
 
