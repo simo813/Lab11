@@ -1,6 +1,7 @@
 import flet as ft
 
 from UI.controller import Controller
+from model.product import Product
 
 
 class View(ft.UserControl):
@@ -25,7 +26,7 @@ class View(ft.UserControl):
         self.txt_container = None
 
         self._ddnode = None
-        self.ddNodeValue = None
+        self.ddNodeValue = Product
         self.btn_search = None
         self.txtOut2 = None
 
@@ -93,6 +94,7 @@ class View(ft.UserControl):
 
     def on_dropdownNode_change(self, e):
         self.ddNodeValue = self._ddnode.value
+        #trasforma qualunque valore della key in stringa
         self.update_page()
 
 
