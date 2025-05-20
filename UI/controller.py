@@ -76,4 +76,5 @@ class Controller:
         #print(source)  passa correttamente il codice nodo in stringa
         bestPathLenghtCO = self._model.getOptPath(sourceIDStr)
         self._view.txtOut2.controls.append(ft.Text(f"Numero archi percorso più lungo: {bestPathLenghtCO}"))
+        self._view.update_page()
 

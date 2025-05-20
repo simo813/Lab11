@@ -71,8 +71,8 @@ class Model:
             peso = self.graphMO[source][vicino]['weight']
             pathProvvisorio = [(source, vicino, peso)]
             percorso_trovato = self.ricorsione(parziale, pathProvvisorio, {source})  # Cambio nome variabile
-            if len(percorso_trovato) > len(miglior_percorso_globale):
-                print(f"\nmiglior percorso fin ora {len(percorso_trovato)}")
+            if len(percorso_trovato) >= len(miglior_percorso_globale):
+                print(f"\nmiglior percorso fin ora globale {len(percorso_trovato)}")
                 miglior_percorso_globale = copy.deepcopy(percorso_trovato)
             parziale.pop()
         self._bestPathMO = miglior_percorso_globale
@@ -100,25 +100,24 @@ class Model:
         penultimo_nodo = parziale[-2]
         vicini = list(self.graphMO.neighbors(ultimo_nodo))
         miglior_percorso_locale = copy.deepcopy(pathProvvisorio)
-        trovato_nodo_valido = False
+
 
         for node in vicini:
             peso_arco_corrente = self.graphMO[ultimo_nodo][node]['weight']
             peso_arco_precedente = self.graphMO[penultimo_nodo][ultimo_nodo]['weight']
             if self.rispettaVincoli(node, peso_arco_corrente, peso_arco_precedente, visited):
-                trovato_nodo_valido = True
+
                 nuovo_arco = (ultimo_nodo, node, peso_arco_corrente)
                 pathProvvisorio.append(nuovo_arco)
                 parziale.append(node)
                 visited.add(node)
                 percorso_candidato = self.ricorsione(parziale, pathProvvisorio, visited)
-                if len(percorso_candidato) > len(miglior_percorso_locale):
+                if len(percorso_candidato) >= len(miglior_percorso_locale):
                     miglior_percorso_locale = copy.deepcopy(percorso_candidato)
                 parziale.pop()
                 pathProvvisorio.pop()
                 visited.remove(node)
-        if not trovato_nodo_valido:
-            return miglior_percorso_locale #ritorna il miglior percorso trovato, che potrebbe essere quello iniziale
+
         return miglior_percorso_locale
 
     def rispettaVincoli(self, node, peso_arco_corrente, peso_arco_precedente, visited):
@@ -134,6 +133,6 @@ class Model:
         Returns:
             bool: True se il nodo e il peso dell'arco rispettano i vincoli, False altrimenti.
         """
-        if peso_arco_corrente >= peso_arco_precedente and node not in visited:
+        if (peso_arco_corrente >= peso_arco_precedente and node not in visited):
             return True
         return False
